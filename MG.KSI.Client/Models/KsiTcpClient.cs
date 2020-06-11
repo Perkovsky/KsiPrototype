@@ -1,4 +1,8 @@
 ﻿using Common.Services;
+using MassTransit;
+using MG.EventBus.Components.Helpers;
+using MG.EventBus.Contracts;
+using MG.EventBus.Startup;
 using System;
 using System.Net;
 using System.Text;
@@ -9,48 +13,65 @@ namespace MG.KSI.Client.Models
 {
 	public class KsiTcpClient : AsyncTcpClient
 	{
-		private readonly Encoding _encoding = Encoding.ASCII;
-		private readonly IPrintService _printer;
+		private readonly Encoding _encoding = Encoding.UTF8;
+		private readonly string _ksiTcpClientId;
+		private readonly IBusControl _bus;
 
-		public string KsiTcpClientId { get; private set; }
-
-		public KsiTcpClient(IKsiSettingsService ksiSettingsService, IPrintService printer)
+		public KsiTcpClient(IKsiSettingsService ksiSettingsService)
 		{
-			var settings = ksiSettingsService?.GetSettings() ?? throw new ArgumentNullException(nameof(ksiSettingsService));
-			_printer = printer ?? throw new ArgumentNullException(nameof(printer));
-
-			KsiTcpClientId = settings.Host;
+			var settings = ksiSettingsService?.GetKsiSettings() ?? throw new ArgumentNullException(nameof(ksiSettingsService));
+			
+			_ksiTcpClientId = settings.Host;
 			IPAddress = IPAddress.Parse(settings.Host);
 			Port = settings.Port;
 			AutoReconnect = true;
+
+			_bus = EventBusHandlerFactory.Create<KsiCommandSent>(ksiSettingsService.GetEventBusSetting(), KsiCommandSentHandler);
 		}
 
-		private async Task SendAsync(string command)
+		#region Private Methods
+
+		private async Task KsiCommandSentHandler(ConsumeContext<KsiCommandSent> context)
 		{
-			Console.WriteLine($"Sent command: {command}");
-			await SendCommandAsync(command);
+			if (context.Message.KsiTcpClientId != _ksiTcpClientId)
+				return;
+
+			await SendCommandAsync(context.Message.KsiCommand);
 		}
+
+		private async Task SendCommandAsync(string command)
+		{
+			byte[] bytes = _encoding.GetBytes(command);
+			await Send(new ArraySegment<byte>(bytes, 0, bytes.Length));
+		}
+
+		#endregion
 
 		protected override async Task OnConnectedAsync(bool isReconnected)
 		{
-			await SendAsync(Commands.PanelPing());
-			await SendAsync(Commands.LightKey(1));
-			//await SendAsync(Commands.Display("Hi Vitaly"));
-			//await SendAsync(Commands.OpenDoor(1));
+			await _bus.StartAsync();
+			Console.WriteLine($"KsiTcpClient ({_ksiTcpClientId}) listening command reply or events...{Environment.NewLine}");
 		}
 
-		protected override Task OnReceivedAsync(int count)
+		protected override async Task OnReceivedAsync(int count)
 		{
 			byte[] bytes = ByteBuffer.Dequeue(count);
 			string message = _encoding.GetString(bytes, 0, bytes.Length);
-			Console.WriteLine("Client: received: " + message);
-			return Task.CompletedTask;
+			Console.WriteLine($"KsiTcpClient received: {message}");
+
+			var endpoint = await _bus.GetSendEndpoint(QueueHelper.GetQueueUri<HandleKsiEvent>());
+			await endpoint.Send<HandleKsiEvent>(new
+			{
+				KsiTcpClientId = _ksiTcpClientId,
+				CreatedDate = DateTime.UtcNow,
+				Event = message
+			});
 		}
 
-		public async Task SendCommandAsync(string command)
+		public new void Dispose()
 		{
-			byte[] bytes = Encoding.UTF8.GetBytes(command);
-			await Send(new ArraySegment<byte>(bytes, 0, bytes.Length));
+			_bus.Stop();
+			base.Dispose();
 		}
 	}
 }

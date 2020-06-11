@@ -14,9 +14,9 @@ namespace MG.KSI.Client
 
 			try
 			{
-				using (var client = new KsiTcpClient(settingsService, printService))
+				using (var client = new KsiTcpClient(settingsService))
 				{
-					client.Message += (s, a) => Console.WriteLine($"Client-Prorgam.cs: {a.Message}");
+					client.Message += (s, a) => printService.PrintInfo($"KsiTcpClient ({settingsService.GetKsiSettings().Host}) handle from Endpoint: {a.Message}");
 					await client.RunAsync();
 				}
 			}
@@ -25,7 +25,7 @@ namespace MG.KSI.Client
 				printService.PrintError($"Exception: {e}");
 			}
 
-			//Console.WriteLine("Press any key to exit...");
+			//printService.PrintInfo("Press any key to exit...");
 			//Console.ReadKey();
 		}
 	}

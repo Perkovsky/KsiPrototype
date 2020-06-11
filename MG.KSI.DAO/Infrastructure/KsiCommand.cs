@@ -1,11 +1,12 @@
-﻿using MG.KSI.Client.Extensions;
+﻿using MG.KSI.DAO.Extensions;
+using MG.KSI.DAO.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MG.KSI.Client.Models
+namespace MG.KSI.DAO.Infrastructure
 {
-	public static class Commands
+	public static class KsiCommand
 	{
 		/// <summary>
 		/// The panelping command may be used by the host application to verify that the GFMS XML parser
@@ -47,8 +48,8 @@ namespace MG.KSI.Client.Models
 		/// <returns>KSI string command</returns>
 		public static string Display(string text, int line = 1)
 		{
-			if (line <= 0 || line > 4)
-				throw new ArgumentOutOfRangeException(nameof(line), "The line should be 1-4.");
+			if (line <= 0 || line > KsiConatants.DISPLAY_MAX_LINES)
+				throw new ArgumentOutOfRangeException(nameof(line), $"The line should be 1-{KsiConatants.DISPLAY_MAX_LINES}.");
 
 			return $"<display line={line}>{text.KsiNormalize()}</display>";
 		}
@@ -66,10 +67,10 @@ namespace MG.KSI.Client.Models
 		/// <param name="keySerialNumber">Key serial number of key fob or position to be lit</param>
 		/// <returns>KSI string command</returns>
 		public static string LightKey(int pos
-			, SwitchType type = SwitchType.On
+			, KsiSwitchType type = KsiSwitchType.On
 			, string userId = null
 			, string keyList = null
-			, SwitchType? log = null
+			, KsiSwitchType? log = null
 			, string keySerialNumber = null
 		)
 		{
@@ -78,7 +79,7 @@ namespace MG.KSI.Client.Models
 
 			if (!string.IsNullOrWhiteSpace(userId))
 				sb.Append($" userid={userId}");
-			
+
 			if (!string.IsNullOrWhiteSpace(keyList))
 				sb.Append($" keylist={keyList}");
 
