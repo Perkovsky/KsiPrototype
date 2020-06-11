@@ -7,13 +7,6 @@ namespace MG.KSI.Client
 {
 	class Program
 	{
-		static async Task SendCommandAsync(KsiClient client, string command)
-		{
-			Console.WriteLine($"Sent command: {command}");
-			var response = await client.SendCommandAsync(command);
-			Console.WriteLine($"Response: {(!string.IsNullOrWhiteSpace(response) ? response : "<none>")}");
-		}
-
 		static async Task Main(string[] args)
 		{
 			var printService = new PrintService();
@@ -21,19 +14,17 @@ namespace MG.KSI.Client
 
 			try
 			{
-				using (var client = new KsiClient(settingsService, printService))
+				using (var client = new KsiTcpClient(settingsService, printService))
 				{
-					await SendCommandAsync(client, Commands.PanelPing());
-					await SendCommandAsync(client, Commands.LightKey(1));
-					await SendCommandAsync(client, Commands.Display("Hi Vitaly"));
-					await SendCommandAsync(client, Commands.OpenDoor(1));
+					client.Message += (s, a) => Console.WriteLine($"Client-Prorgam.cs: {a.Message}");
+					await client.RunAsync();
 				}
 			}
 			catch (Exception e)
 			{
 				printService.PrintError($"Exception: {e}");
 			}
-			
+
 			//Console.WriteLine("Press any key to exit...");
 			//Console.ReadKey();
 		}
