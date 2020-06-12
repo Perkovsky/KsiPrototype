@@ -16,6 +16,7 @@ namespace MG.KSI.Client.Models
 		private readonly Encoding _encoding = Encoding.UTF8;
 		private readonly string _ksiTcpClientId;
 		private readonly IBusControl _bus;
+		private readonly ISendEndpoint _sender;
 
 		public KsiTcpClient(IKsiSettingsService ksiSettingsService)
 		{
@@ -27,6 +28,7 @@ namespace MG.KSI.Client.Models
 			AutoReconnect = true;
 
 			_bus = EventBusHandlerFactory.Create<KsiCommandSent>(ksiSettingsService.GetEventBusSetting(), KsiCommandSentHandler);
+			_sender = _bus.GetSendEndpoint(QueueHelper.GetQueueUri<HandleKsiEvent>()).Result;
 		}
 
 		#region Private Methods
@@ -59,8 +61,8 @@ namespace MG.KSI.Client.Models
 			string message = _encoding.GetString(bytes, 0, bytes.Length);
 			Console.WriteLine($"KsiTcpClient received: {message}");
 
-			var endpoint = await _bus.GetSendEndpoint(QueueHelper.GetQueueUri<HandleKsiEvent>());
-			await endpoint.Send<HandleKsiEvent>(new
+			
+			await _sender.Send<HandleKsiEvent>(new
 			{
 				KsiTcpClientId = _ksiTcpClientId,
 				CreatedDate = DateTime.UtcNow,
