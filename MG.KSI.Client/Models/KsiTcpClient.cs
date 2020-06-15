@@ -1,11 +1,13 @@
-﻿using Common.Services;
+﻿using Common.Models;
 using MassTransit;
 using MG.EventBus.Components.Helpers;
 using MG.EventBus.Contracts;
 using MG.EventBus.Startup;
+using MG.EventBus.Startup.Models;
 using System;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Unclassified.Net;
 
@@ -18,16 +20,14 @@ namespace MG.KSI.Client.Models
 		private readonly IBusControl _bus;
 		private readonly ISendEndpoint _sender;
 
-		public KsiTcpClient(IKsiSettingsService ksiSettingsService)
+		public KsiTcpClient(KsiSettings ksiSettings, EventBusSettings eventBusSettings)
 		{
-			var settings = ksiSettingsService?.GetKsiSettings() ?? throw new ArgumentNullException(nameof(ksiSettingsService));
-			
-			_ksiTcpClientId = settings.Host;
-			IPAddress = IPAddress.Parse(settings.Host);
-			Port = settings.Port;
+			_ksiTcpClientId = ksiSettings.Host;
+			IPAddress = IPAddress.Parse(ksiSettings.Host);
+			Port = ksiSettings.Port;
 			AutoReconnect = true;
 
-			_bus = EventBusHandlerFactory.Create<KsiCommandSent>(ksiSettingsService.GetEventBusSetting(), KsiCommandSentHandler);
+			_bus = EventBusHandlerFactory.Create<KsiCommandSent>(_ksiTcpClientId, eventBusSettings, KsiCommandSentHandler);
 			_sender = _bus.GetSendEndpoint(QueueHelper.GetQueueUri<HandleKsiEvent>()).Result;
 		}
 
@@ -52,7 +52,7 @@ namespace MG.KSI.Client.Models
 		protected override async Task OnConnectedAsync(bool isReconnected)
 		{
 			await _bus.StartAsync();
-			Console.WriteLine($"KsiTcpClient ({_ksiTcpClientId}) listening command reply or events...{Environment.NewLine}");
+			Console.WriteLine($"Thread #{Thread.CurrentThread.ManagedThreadId}. KsiTcpClient ({_ksiTcpClientId}) listening command reply or events...{Environment.NewLine}");
 		}
 
 		protected override async Task OnReceivedAsync(int count)
@@ -60,7 +60,6 @@ namespace MG.KSI.Client.Models
 			byte[] bytes = ByteBuffer.Dequeue(count);
 			string message = _encoding.GetString(bytes, 0, bytes.Length);
 			Console.WriteLine($"KsiTcpClient received: {message}");
-
 			
 			await _sender.Send<HandleKsiEvent>(new
 			{

@@ -7,7 +7,7 @@ namespace MG.EventBus.Startup
 {
 	public class EventBusHandlerFactory
 	{
-		public static IBusControl Create<TMessage>(EventBusSettings settings, MessageHandler<TMessage> handler)
+		public static IBusControl Create<TMessage>(string uniqueQueueSuffix, EventBusSettings settings, MessageHandler<TMessage> handler)
 			where TMessage : class
 		{
 			if (settings == null)
@@ -31,7 +31,7 @@ namespace MG.EventBus.Startup
 					//	s.Protocol = SslProtocols.Tls12;
 					//});
 
-					string queueName = QueueHelper.GetQueueName<TMessage>();
+					string queueName = QueueHelper.GetQueueName<TMessage>(uniqueQueueSuffix);
 					cfg.ReceiveEndpoint(queueName, e => e.Handler<TMessage>(handler));
 				});
 			});

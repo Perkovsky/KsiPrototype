@@ -18,10 +18,11 @@ namespace MG.EventBus.Components.Helpers
 			return KebabCaseEndpointNameFormatter.Instance.Consumer<T>() + GetQueueNameSuffix(priority);
 		}
 
-		public static string GetQueueName<T>()
+		public static string GetQueueName<T>(string queueSuffix = null)
 			where T : class
 		{
-			return KebabCaseEndpointNameFormatter.Instance.SanitizeName(typeof(T).Name);
+			var queueName = KebabCaseEndpointNameFormatter.Instance.SanitizeName(typeof(T).Name);
+			return string.IsNullOrWhiteSpace(queueSuffix) ? queueName : $"{queueName}-{queueSuffix}";
 		}
 
 		public static Uri GetQueueUri<T>(QueuePriority priority = QueuePriority.Normal)

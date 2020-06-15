@@ -1,12 +1,13 @@
 ﻿using Common.Models;
 using MG.EventBus.Startup.Models;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 
 namespace Common.Services.Impl
 {
 	public class KsiSettingsService : IKsiSettingsService
 	{
-		public KsiSettings GetKsiSettings()
+		public IEnumerable<KsiSettings> GetKsiSettings()
 		{
 			// used safe storage of app secrets
 			// see: https://docs.microsoft.com/en-US/aspnet/core/security/app-secrets
@@ -14,7 +15,12 @@ namespace Common.Services.Impl
 			var config = new ConfigurationBuilder()
 				.AddUserSecrets<KsiSettings>()
 				.Build();
-			var result = config.GetSection("KSI").Get<KsiSettings>();
+
+			var result = new List<KsiSettings>
+			{
+				config.GetSection("KSI").Get<KsiSettings>(),
+				new KsiSettings { Host = "127.0.0.1", Port = 13000 }
+			};
 
 			return result;
 		}

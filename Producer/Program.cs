@@ -5,6 +5,7 @@ using MG.EventBus.Startup;
 using MG.KSI.DAO.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
 
 namespace Producer
 {
@@ -17,7 +18,7 @@ namespace Producer
 		{
 			var settingsService = new KsiSettingsService();
 
-			_ksiTcpClientId = settingsService.GetKsiSettings().Host;
+			_ksiTcpClientId = settingsService.GetKsiSettings().First().Host;
 			_serviceProvider = new ServiceCollection()
 				.RegisterEventBusProducerDependencies(settingsService.GetEventBusSetting())
 				.BuildServiceProvider();
