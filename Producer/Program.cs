@@ -20,7 +20,7 @@ namespace Producer
 
 			_ksiTcpClientId = settingsService.GetKsiSettings().First().Host;
 			_serviceProvider = new ServiceCollection()
-				.RegisterEventBusProducerDependencies(settingsService.GetEventBusSetting())
+				.RegisterEventBusProducerDependencies(settingsService.GetEventBusSettings())
 				.BuildServiceProvider();
 		}
 

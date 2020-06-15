@@ -15,7 +15,7 @@ namespace Consumer.WindowsService
         {
             var settingsService = new KsiSettingsService();
             container = new Container();
-            container.RegisterHandleKsiEventConsumerDependencies(settingsService.GetEventBusSetting());
+            container.RegisterHandleKsiEventConsumerDependencies(settingsService.GetEventBusSettings());
             container.Verify();
         }
 

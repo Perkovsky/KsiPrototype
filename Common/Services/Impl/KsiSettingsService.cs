@@ -25,7 +25,7 @@ namespace Common.Services.Impl
 			return result;
 		}
 
-		public EventBusSettings GetEventBusSetting()
+		public EventBusSettings GetEventBusSettings()
 		{
 			return new EventBusSettings
 			{

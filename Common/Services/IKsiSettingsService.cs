@@ -7,6 +7,6 @@ namespace Common.Services
 	public interface IKsiSettingsService
 	{
 		IEnumerable<KsiSettings> GetKsiSettings();
-		EventBusSettings GetEventBusSetting();
+		EventBusSettings GetEventBusSettings();
 	}
 }
