@@ -48,8 +48,8 @@ namespace MG.KSI.DAO.Infrastructure
 		/// <returns>KSI string command</returns>
 		public static string Display(string text, int line = 1)
 		{
-			if (line <= 0 || line > KsiConatants.DISPLAY_MAX_LINES)
-				throw new ArgumentOutOfRangeException(nameof(line), $"The line should be 1-{KsiConatants.DISPLAY_MAX_LINES}.");
+			if (line <= 0 || line > KsiConstants.DISPLAY_MAX_LINES)
+				throw new ArgumentOutOfRangeException(nameof(line), $"The line should be 1-{KsiConstants.DISPLAY_MAX_LINES}.");
 
 			return $"<display line={line}>{text.KsiNormalize()}</display>";
 		}

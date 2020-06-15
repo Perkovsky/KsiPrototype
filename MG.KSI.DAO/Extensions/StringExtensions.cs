@@ -4,7 +4,7 @@
 	{
 		public static string KsiNormalize(this string str)
 		{
-			int length = str.Length > KsiConatants.DISPLAY_LINE_MAX_LENGTH ? KsiConatants.DISPLAY_LINE_MAX_LENGTH : str.Length;
+			int length = str.Length > KsiConstants.DISPLAY_LINE_MAX_LENGTH ? KsiConstants.DISPLAY_LINE_MAX_LENGTH : str.Length;
 			return str.Substring(0, length).Replace(" ", "+");
 		}
 	}
