@@ -8,7 +8,6 @@ namespace MG.KSI.Client
 	{
 		static void Main(string[] args)
 		{
-			
 			var settingsService = new KsiSettingsService();
 			var eventBusSettings = settingsService.GetEventBusSettings();
 			var ksiSettings = settingsService.GetKsiSettings();

@@ -32,7 +32,11 @@ namespace MG.EventBus.Startup
 					//});
 
 					string queueName = QueueHelper.GetQueueName<TMessage>(uniqueQueueSuffix);
-					cfg.ReceiveEndpoint(queueName, e => e.Handler<TMessage>(handler));
+					cfg.ReceiveEndpoint(queueName, e =>
+					{
+						//e.PurgeOnStartup = true;
+						e.Handler<TMessage>(handler);
+					});
 				});
 			});
 		}

@@ -1,24 +1,27 @@
-﻿using Common.Services.Impl;
+﻿using Common.Models;
+using Common.Services.Impl;
 using MG.EventBus.Components.Services;
 using MG.EventBus.Contracts;
 using MG.EventBus.Startup;
 using MG.KSI.DAO.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Producer
 {
 	class Program
 	{
-		static readonly string _ksiTcpClientId;
+		static string _ksiTcpClientId;
 		static readonly ServiceProvider _serviceProvider;
+		static readonly IEnumerable<KsiSettings> _ksiSettings;
 
 		static Program()
 		{
 			var settingsService = new KsiSettingsService();
 
-			_ksiTcpClientId = settingsService.GetKsiSettings().First().Host;
+			_ksiSettings = settingsService.GetKsiSettings();
 			_serviceProvider = new ServiceCollection()
 				.RegisterEventBusProducerDependencies(settingsService.GetEventBusSettings())
 				.BuildServiceProvider();
@@ -28,8 +31,15 @@ namespace Producer
 		{
 			var producer = _serviceProvider.GetService<IEventBusProducerService>();
 
-			var random = new Random();
 			Console.WriteLine("-- PRODUCER --");
+			
+			Console.Write("Do you want to use fake server (y/n)? ");
+			string answer = Console.ReadLine();
+			if (answer.Equals("y", StringComparison.InvariantCultureIgnoreCase))
+				_ksiTcpClientId = _ksiSettings.Last().Host;
+			else
+				_ksiTcpClientId = _ksiSettings.First().Host;
+
 			Console.WriteLine("Enter command: 1-PanelPing; 2-LightKey; 3-Display; 4-OpenDoor (or quit to exit)..." + Environment.NewLine);
 
 			while (true)

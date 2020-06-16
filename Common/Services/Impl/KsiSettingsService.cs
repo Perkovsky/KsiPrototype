@@ -16,11 +16,7 @@ namespace Common.Services.Impl
 				.AddUserSecrets<KsiSettings>()
 				.Build();
 
-			var result = new List<KsiSettings>
-			{
-				config.GetSection("KSI").Get<KsiSettings>(),
-				new KsiSettings { Host = "127.0.0.1", Port = 13000 }
-			};
+			var result = config.GetSection("KSI").Get<IEnumerable<KsiSettings>>();
 
 			return result;
 		}
