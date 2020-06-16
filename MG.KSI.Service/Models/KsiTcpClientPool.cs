@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MG.KSI.Client.Models
+namespace MG.KSI.Service.Models
 {
 	public class KsiTcpClientPool
 	{

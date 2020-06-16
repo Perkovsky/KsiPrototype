@@ -1,8 +1,8 @@
 ﻿using Common.Services.Impl;
-using MG.KSI.Client.Models;
+using MG.KSI.Service.Models;
 using Topshelf;
 
-namespace MG.KSI.Client
+namespace MG.KSI.Service
 {
 	class Program
 	{

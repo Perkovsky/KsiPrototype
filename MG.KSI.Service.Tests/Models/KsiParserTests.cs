@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace MG.KSI.Tests.Models
+namespace MG.KSI.Service.Tests.Models
 {
 	public class KsiParser
 	{

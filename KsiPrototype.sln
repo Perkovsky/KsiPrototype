@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30128.74
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MG.KSI.FakeServer", "MG.KSI.Server\MG.KSI.FakeServer.csproj", "{1C1E3DE1-EFD9-4411-B2C2-16628CCAC683}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MG.KSI.FakeServer", "MG.KSI.FakeServer\MG.KSI.FakeServer.csproj", "{1C1E3DE1-EFD9-4411-B2C2-16628CCAC683}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MG.KSI.Client", "MG.KSI.Client\MG.KSI.Client.csproj", "{CDA5D355-B741-4EDE-9910-FF9085824CF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MG.KSI.Service", "MG.KSI.Service\MG.KSI.Service.csproj", "{CDA5D355-B741-4EDE-9910-FF9085824CF6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{05951095-B8E9-4289-B0DB-6CB02F6189FF}"
 EndProject
@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MG.KSI.DAO", "MG.KSI.DAO\MG
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Consumer.WindowsService", "Consumer.WindowsService\Consumer.WindowsService.csproj", "{53D0CA1E-D45C-4823-B09F-53CD731A408D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MG.KSI.Tests", "MG.KSI.Tests\MG.KSI.Tests.csproj", "{22A102DD-224B-4D35-A535-12E94B1522A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MG.KSI.Service.Tests", "MG.KSI.Service.Tests\MG.KSI.Service.Tests.csproj", "{22A102DD-224B-4D35-A535-12E94B1522A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

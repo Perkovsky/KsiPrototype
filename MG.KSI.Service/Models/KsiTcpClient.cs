@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Unclassified.Net;
 
-namespace MG.KSI.Client.Models
+namespace MG.KSI.Service.Models
 {
 	public class KsiTcpClient : AsyncTcpClient
 	{
