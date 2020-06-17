@@ -25,6 +25,42 @@ namespace MG.KSI.Service.Tests.Models
 		}
 
 		[Fact]
+		public void CreateKsiParser_PanelpingReply_ReturnsKsiParser()
+		{
+			// Arrange
+			var reply = @"<cmdreply panelid=0050c23d8000 status=ack>panelping</cmdreply>";
+
+			// Act
+			var result = new KsiParser(reply);
+
+			// Assert
+			Assert.NotNull(result);
+			Assert.Equal("cmdreply", result.Tag);
+			Assert.Equal("panelping", result.Value);
+			Assert.Equal(2, result.Attributes.Count());
+			Assert.Equal("0050c23d8000", result.Attributes["panelid"]);
+			Assert.Equal("ack", result.Attributes["status"]);
+		}
+
+		[Fact]
+		public void CreateKsiParser_OpendoorReply_ReturnsKsiParser()
+		{
+			// Arrange
+			var reply = @"<cmdreply panelid=0050c23d8000 status=ack>opendoor</cmdreply>";
+
+			// Act
+			var result = new KsiParser(reply);
+
+			// Assert
+			Assert.NotNull(result);
+			Assert.Equal("cmdreply", result.Tag);
+			Assert.Equal("opendoor", result.Value);
+			Assert.Equal(2, result.Attributes.Count());
+			Assert.Equal("0050c23d8000", result.Attributes["panelid"]);
+			Assert.Equal("ack", result.Attributes["status"]);
+		}
+
+		[Fact]
 		public void CreateKsiParser_Alarmevent_ReturnsKsiParser()
 		{
 			// Arrange
