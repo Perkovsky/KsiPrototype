@@ -2,7 +2,7 @@
 
 namespace MG.EventBus.Contracts
 {
-	public interface KsiCommandSent
+	public interface SendKsiCommand
 	{
 		string KsiTcpClientId { get; }
 		DateTime CreatedDate { get; }

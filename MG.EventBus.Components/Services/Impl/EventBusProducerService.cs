@@ -44,5 +44,18 @@ namespace MG.EventBus.Components.Services.Impl
 			var endpoint = await _sendEndpointProvider.GetSendEndpoint(QueueHelper.GetQueueUri<TConsumer>(priority));
 			await endpoint.Send<TContract>(values, cancellationToken);
 		}
+
+		public Task Send<TContract>(object values, string queueSuffix = null)
+			where TContract : class
+		{
+			return SendAsync<TContract>(values, queueSuffix);
+		}
+
+		public async Task SendAsync<TContract>(object values, string queueSuffix = null, CancellationToken cancellationToken = default)
+			where TContract : class
+		{
+			var endpoint = await _sendEndpointProvider.GetSendEndpoint(QueueHelper.GetQueueUri<TContract>(queueSuffix));
+			await endpoint.Send<TContract>(values, cancellationToken);
+		}
 	}
 }

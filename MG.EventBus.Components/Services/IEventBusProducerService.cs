@@ -20,5 +20,11 @@ namespace MG.EventBus.Components.Services
 		Task SendAsync<TContract, TConsumer>(object values, QueuePriority priority = QueuePriority.Normal, CancellationToken cancellationToken = default)
 			where TContract : class
 			where TConsumer : class, IConsumer<TContract>;
+
+		Task Send<TContract>(object values, string queueSuffix = null)
+			where TContract : class;
+
+		Task SendAsync<TContract>(object values, string queueSuffix = null, CancellationToken cancellationToken = default)
+			where TContract : class;
 	}
 }

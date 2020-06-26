@@ -32,10 +32,10 @@ namespace MG.EventBus.Components.Helpers
 			return new Uri($"queue:{queueName}");
 		}
 
-		public static Uri GetQueueUri<T>()
+		public static Uri GetQueueUri<T>(string queueSuffix = null)
 			where T : class
 		{
-			string queueName = GetQueueName<T>();
+			string queueName = GetQueueName<T>(queueSuffix);
 			return new Uri($"queue:{queueName}");
 		}
 	}

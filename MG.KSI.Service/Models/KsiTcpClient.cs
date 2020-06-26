@@ -27,13 +27,15 @@ namespace MG.KSI.Service.Models
 			Port = ksiSettings.Port;
 			AutoReconnect = true;
 
-			_bus = EventBusHandlerFactory.Create<KsiCommandSent>(_ksiTcpClientId, eventBusSettings, KsiCommandSentHandler);
+			Message += (s, a) => Console.WriteLine($"KsiTcpClient message ({_ksiTcpClientId}): {a.Message}");
+
+			_bus = EventBusHandlerFactory.Create<SendKsiCommand>(_ksiTcpClientId, eventBusSettings, KsiCommandSentHandler);
 			_sender = _bus.GetSendEndpoint(QueueHelper.GetQueueUri<HandleKsiEvent>()).Result;
 		}
 
 		#region Private Methods
 
-		private async Task KsiCommandSentHandler(ConsumeContext<KsiCommandSent> context)
+		private async Task KsiCommandSentHandler(ConsumeContext<SendKsiCommand> context)
 		{
 			if (context.Message.KsiTcpClientId != _ksiTcpClientId)
 				return;
@@ -59,7 +61,7 @@ namespace MG.KSI.Service.Models
 		{
 			byte[] bytes = ByteBuffer.Dequeue(count);
 			string message = _encoding.GetString(bytes, 0, bytes.Length);
-			Console.WriteLine($"KsiTcpClient received: {message}");
+			Console.WriteLine($"KsiTcpClient received ({_ksiTcpClientId}): {message}");
 			
 			await _sender.Send<HandleKsiEvent>(new
 			{

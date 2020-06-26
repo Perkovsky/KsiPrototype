@@ -34,7 +34,6 @@ namespace MG.KSI.Service.Models
 					{
 						using (var client = new KsiTcpClient(ksiSetting, _eventBusSettings))
 						{
-							client.Message += (s, a) => printService.PrintInfo($"KsiTcpClient ({ksiSetting.Host}) handle from Endpoint: {a.Message}");
 							await client.RunAsync();
 						}
 					}
