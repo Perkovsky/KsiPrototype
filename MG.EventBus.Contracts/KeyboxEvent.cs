@@ -2,9 +2,9 @@
 
 namespace MG.EventBus.Contracts
 {
-	public interface HandleKsiEvent
+	public interface KeyboxEvent
 	{
-		string KsiTcpClientId { get; }
+		string KeyBoxTcpClientId { get; }
 		DateTime CreatedDate { get; }
 		string Event { get; } // Command Reply or Event
 	}

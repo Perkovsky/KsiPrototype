@@ -65,11 +65,11 @@ namespace Producer
 				}
 
 				Console.WriteLine($"\tSent command: {ksiCommand}");
-				producer.Send<SendKsiCommand>(new
+				producer.Send<KeyboxCommandKeybox>(new
 				{
-					KsiTcpClientId = _ksiTcpClientId,
+					KeyBoxTcpClientId = _ksiTcpClientId,
 					CreatedDate = DateTime.UtcNow,
-					KsiCommand = ksiCommand
+					KeyBoxCommand = ksiCommand
 				}, _ksiTcpClientId);
 			}
 		}

@@ -29,18 +29,18 @@ namespace MG.KSI.Service.Models
 
 			Message += (s, a) => Console.WriteLine($"KsiTcpClient message ({_ksiTcpClientId}): {a.Message}");
 
-			_bus = EventBusHandlerFactory.Create<SendKsiCommand>(_ksiTcpClientId, eventBusSettings, KsiCommandSentHandler);
-			_sender = _bus.GetSendEndpoint(QueueHelper.GetQueueUri<HandleKsiEvent>()).Result;
+			_bus = EventBusHandlerFactory.Create<KeyboxCommandKeybox>(_ksiTcpClientId, eventBusSettings, KsiCommandSentHandler);
+			_sender = _bus.GetSendEndpoint(QueueHelper.GetQueueUri<KeyboxEvent>()).Result;
 		}
 
 		#region Private Methods
 
-		private async Task KsiCommandSentHandler(ConsumeContext<SendKsiCommand> context)
+		private async Task KsiCommandSentHandler(ConsumeContext<KeyboxCommandKeybox> context)
 		{
-			if (context.Message.KsiTcpClientId != _ksiTcpClientId)
+			if (context.Message.KeyBoxTcpClientId != _ksiTcpClientId)
 				return;
 
-			await SendCommandAsync(context.Message.KsiCommand);
+			await SendCommandAsync(context.Message.KeyBoxCommand);
 		}
 
 		private async Task SendCommandAsync(string command)
@@ -63,9 +63,9 @@ namespace MG.KSI.Service.Models
 			string message = _encoding.GetString(bytes, 0, bytes.Length);
 			Console.WriteLine($"KsiTcpClient received ({_ksiTcpClientId}): {message}");
 			
-			await _sender.Send<HandleKsiEvent>(new
+			await _sender.Send<KeyboxEvent>(new
 			{
-				KsiTcpClientId = _ksiTcpClientId,
+				KeyBoxTcpClientId = _ksiTcpClientId,
 				CreatedDate = DateTime.UtcNow,
 				Event = message
 			});

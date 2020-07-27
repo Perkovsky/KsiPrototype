@@ -32,7 +32,7 @@ namespace MG.EventBus.Startup
 		{
 			// CHANGE THE BROKER HERE. SEE ALSO ALL OVERLOADED EXTENDED METHODS
 
-			container.RegisterDependencies(settings, Configure<ISimpleInjectorConfigurator, Container>, receiveEndpoints, CloudAMQPConfigureBus);
+			container.RegisterDependencies(settings, Configure<ISimpleInjectorConfigurator, Container>, receiveEndpoints, AmazonMQConfigureBus);
 			return container;
 		}
 
@@ -42,7 +42,7 @@ namespace MG.EventBus.Startup
 		{
 			// CHANGE THE BROKER HERE. SEE ALSO ALL OVERLOADED EXTENDED METHODS
 
-			services.RegisterDependencies(settings, Configure<IServiceCollectionConfigurator, IServiceProvider>, receiveEndpoints, CloudAMQPConfigureBus);
+			services.RegisterDependencies(settings, Configure<IServiceCollectionConfigurator, IServiceProvider>, receiveEndpoints, AmazonMQConfigureBus);
 			return services;
 		}
 
@@ -231,7 +231,7 @@ namespace MG.EventBus.Startup
 			var receiveEndpoints = new List<ReceiveEndpointRegistration>
 			{
 				new ReceiveEndpointRegistration(
-					queueName: QueueHelper.GetQueueName<HandleKsiEvent>(),
+					queueName: QueueHelper.GetQueueName<KeyboxEvent>(),
 					consumers: new List<Type> { typeof(HandleKsiEventConsumer) },
 					faultConsumers: new List<Type> { typeof(FaultHandleKsiEventConsumer) }
 				)
