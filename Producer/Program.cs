@@ -36,9 +36,9 @@ namespace Producer
 			Console.Write("Do you want to use fake server (y/n)? ");
 			string answer = Console.ReadLine();
 			if (answer.Equals("y", StringComparison.InvariantCultureIgnoreCase))
-				_ksiTcpClientId = _ksiSettings.Last().Host;
+				_ksiTcpClientId = "xxx"; // _ksiSettings.Last().Host;
 			else
-				_ksiTcpClientId = _ksiSettings.First().Host;
+				_ksiTcpClientId = "0050c23d8000"; //_ksiSettings.First().Host;
 
 			Console.WriteLine("Enter command: 1-PanelPing; 2-LightKey; 3-Display; 4-OpenDoor (or quit to exit)..." + Environment.NewLine);
 
