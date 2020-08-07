@@ -9,13 +9,21 @@ namespace MG.EventBus.Components.Services.Impl
 {
 	public class EventBusProducerService : IEventBusProducerService
 	{
+		private readonly IBusControl _bus;
 		private readonly IPublishEndpoint _publishEndpoint;
 		private readonly ISendEndpointProvider _sendEndpointProvider;
 
-		public EventBusProducerService(IPublishEndpoint publishEndpoint, ISendEndpointProvider sendEndpointProvider)
+		public EventBusProducerService(IBusControl bus, IPublishEndpoint publishEndpoint, ISendEndpointProvider sendEndpointProvider)
 		{
+			_bus = bus ?? throw new ArgumentNullException(nameof(bus));
 			_publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
 			_sendEndpointProvider = sendEndpointProvider ?? throw new ArgumentNullException(nameof(sendEndpointProvider));
+
+			//NOTE:
+			//	MassTransit uses a temporary non-durable queue and has a consumer to handle responses. This temporary queue only get
+			//	configured and created when you start the bus. If you forget to start the bus in your application code, the request
+			//	client will fail with a timeout, waiting for a response.
+			_bus.StartAsync();
 		}
 
 		public Task Publish<T>(object values)
@@ -56,6 +64,23 @@ namespace MG.EventBus.Components.Services.Impl
 		{
 			var endpoint = await _sendEndpointProvider.GetSendEndpoint(QueueHelper.GetQueueUri<TContract>(queueSuffix));
 			await endpoint.Send<TContract>(values, cancellationToken);
+		}
+
+		public TResponse SendRequest<TRequest, TResponse>(object values, string queueSuffix = null)
+			where TRequest : class
+			where TResponse : class
+		{
+			var task = Task.Run<TResponse>(async () => await SendRequestAsync<TRequest, TResponse>(values, queueSuffix));
+			return task.Result;
+		}
+
+		public async Task<TResponse> SendRequestAsync<TRequest, TResponse>(object values, string queueSuffix = null, CancellationToken cancellationToken = default)
+			where TRequest : class
+			where TResponse : class
+		{
+			var client = _bus.CreateRequestClient<TRequest>(QueueHelper.GetQueueUri<TRequest>(queueSuffix));
+			var response = await client.GetResponse<TResponse>(values, cancellationToken);
+			return response.Message;
 		}
 	}
 }

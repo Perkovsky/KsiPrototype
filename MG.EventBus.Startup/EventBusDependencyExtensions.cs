@@ -98,7 +98,7 @@ namespace MG.EventBus.Startup
 			IEnumerable<Type> faultConsumers = null)
 		{
 			configureEndpoint.UseMessageRetry(RetryPolicy);
-			
+
 			foreach (var consumer in consumers)
 			{
 				configureEndpoint.ConfigureConsumer(registration, consumer);
@@ -127,6 +127,16 @@ namespace MG.EventBus.Startup
 						ec => ReceiveEndpoint(ec, registration, receiveEndpoint.Consumers));
 				}
 			}
+		}
+
+		private static void AddReceiveEndpointForProducerOnly(this IReceiveConfigurator cfg, IRegistration registration)
+		{
+			cfg.ReceiveEndpoint("producer-only", ec =>
+			{
+				ec.ConfigureConsumeTopology = false;
+				ec.DiscardFaultedMessages();
+				ec.DiscardSkippedMessages();
+			});
 		}
 
 		private static void Configure<TConfigurator, TContainerContext>(TConfigurator configurator,
@@ -183,6 +193,8 @@ namespace MG.EventBus.Startup
 
 				if (isConsumer)
 					cfg.AddReceiveEndpoints(registration, receiveEndpoints);
+				//else
+				//	cfg.AddReceiveEndpointForProducerOnly(registration);
 			});
 		}
 
