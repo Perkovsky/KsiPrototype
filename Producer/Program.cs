@@ -51,10 +51,18 @@ namespace Producer
 			AppDomain currentDomain = AppDomain.CurrentDomain;
 			currentDomain.UnhandledException += new UnhandledExceptionEventHandler(MyHandler);
 
+			IBusControl bus = null;
 			IEventBusProducerService producer = null;
 			try
 			{
+				bus = _serviceProvider.GetService<IBusControl>();
 				producer = _serviceProvider.GetService<IEventBusProducerService>();
+				
+				//NOTE:
+				//	MassTransit uses a temporary non-durable queue and has a consumer to handle responses. This temporary queue only get
+				//	configured and created when you start the bus. If you forget to start the bus in your application code, the request
+				//	client will fail with a timeout, waiting for a response.
+				bus.StartAsync();
 			}
 			catch (Exception ex)
 			{
@@ -86,7 +94,10 @@ namespace Producer
 				Console.Write("> ");
 				string msg = Console.ReadLine();
 				if (msg.Equals("quit", StringComparison.InvariantCultureIgnoreCase))
+				{
+					bus.StopAsync();
 					break;
+				}
 
 				switch (msg)
 				{

@@ -18,12 +18,6 @@ namespace MG.EventBus.Components.Services.Impl
 			_bus = bus ?? throw new ArgumentNullException(nameof(bus));
 			_publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
 			_sendEndpointProvider = sendEndpointProvider ?? throw new ArgumentNullException(nameof(sendEndpointProvider));
-
-			//NOTE:
-			//	MassTransit uses a temporary non-durable queue and has a consumer to handle responses. This temporary queue only get
-			//	configured and created when you start the bus. If you forget to start the bus in your application code, the request
-			//	client will fail with a timeout, waiting for a response.
-			_bus.StartAsync();
 		}
 
 		public Task Publish<T>(object values)
