@@ -95,6 +95,8 @@ namespace Producer
 				string msg = Console.ReadLine();
 				if (msg.Equals("quit", StringComparison.InvariantCultureIgnoreCase))
 				{
+					//NOTE:
+					//	In order to a temporary non-durable queue to be automatically deleted you must stop the bus.
 					bus.StopAsync();
 					break;
 				}
