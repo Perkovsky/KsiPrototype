@@ -93,5 +93,41 @@ namespace MG.KSI.DAO.Infrastructure
 
 			return sb.ToString();
 		}
+		/// <summary>
+		/// Upload panel log data with the option to specify last log entry or all. Most common use for this
+		/// command is to retrieve panel log information from Keybox. The delete attribute if present with a
+		/// value of yes will result in the deletion of all panel log entries. Note: this is true even if only
+		/// uploading the last log entry only. If the delete attribute is not present or if the value is no then
+		/// the panel log entries will not be deleted from the Keybox. This usage is much like a view only option.
+		/// </summary>
+		/// <param name="control">last|all</param>
+		/// <param name="pos">yes|no</param>
+		/// <returns>KeyBox string command</returns>
+		public static string UploadPanel(KeyBoxUploadControlType control = KeyBoxUploadControlType.Last, KeyBoxYesNoType delete = KeyBoxYesNoType.No)
+		{
+			var _type = KeyBoxUploadType.Panel.ToString().ToLower();
+			var _control = control.ToString().ToLower();
+			var _delete = delete.ToString().ToLower();
+			return $"<upload type={_type} control={_control} delete={_delete}></upload>";
+		}
+
+		/// <summary>
+		/// Upload XML events with the option to specify starting and ending event range. Most common use for
+		/// this command is to retrieve XML events from panel that may have been lost due to loss of network
+		/// connectivity or other failures.The starting and ending event range is specified by using the eventid
+		/// value. Note: the eventid value is specified in each event and is unique to that event. The panel
+		/// increments the eventid for subsequent events. The host application should store the eventid in order
+		/// to detect missing events.
+		/// </summary>
+		/// <param name="start">Starting eventid value</param>
+		/// <param name="end">Ending eventid value</param>
+		/// <returns>KeyBox string command</returns>
+		public static string UploadEvent(int start, int end)
+		{
+			if (start < 0 || end < 0 || start > end)
+				throw new ArgumentException("You must specify the correct start and end.");
+
+			return $"<upload type={KeyBoxUploadType.Event.ToString().ToLower()} start={start} end={end}></upload>";
+		}
 	}
 }

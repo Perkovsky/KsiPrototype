@@ -6,6 +6,7 @@ using MG.EventBus.Components.Services.Impl;
 using MG.EventBus.Contracts;
 using MG.EventBus.Startup;
 using MG.KSI.DAO.Infrastructure;
+using MG.KSI.DAO.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -85,7 +86,7 @@ namespace Producer
 				_host = _ksiSettings.First().Host;
 			}
 
-			Console.WriteLine("Enter KeyBox commands : 1-PanelPing; 2-LightKey; 3-Display; 4-OpenDoor");
+			Console.WriteLine("Enter KeyBox commands : 1-PanelPing; 2-LightKey; 3-Display; 4-OpenDoor; 8-UploadPanel; 9-UploadPanel (all);");
 			Console.WriteLine("Enter service commands: 5-Add; 6-Remove; 7-HeathCheck (Req/Res)");
 			Console.WriteLine("or type 'quit' to exit..." + Environment.NewLine);
 
@@ -107,6 +108,8 @@ namespace Producer
 					case "2":
 					case "3":
 					case "4":
+					case "8":
+					case "9":
 						KsiCommandHandler(producer, msg);
 						break;
 					case "5":
@@ -130,6 +133,8 @@ namespace Producer
 				"2" => KsiCommand.LightKey(1),
 				"3" => KsiCommand.Display("Hi Vitaly"),
 				"4" => KsiCommand.OpenDoor(1),
+				"8" => KsiCommand.UploadPanel(),
+				"9" => KsiCommand.UploadPanel(KeyBoxUploadControlType.All),
 				_ => string.Empty,
 			};
 
