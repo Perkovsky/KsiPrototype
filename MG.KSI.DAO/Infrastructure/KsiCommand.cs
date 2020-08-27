@@ -129,5 +129,10 @@ namespace MG.KSI.DAO.Infrastructure
 
 			return $"<upload type={KeyBoxUploadType.Event.ToString().ToLower()} start={start} end={end}></upload>";
 		}
+
+		public static string Panel(string type, string name)
+		{
+			return $"<panel type={type} name={name}></panel>";
+		}
 	}
 }

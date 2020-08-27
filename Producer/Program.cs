@@ -110,6 +110,12 @@ namespace Producer
 					case "4":
 					case "8":
 					case "9":
+					case "10":
+					case "11":
+					case "12":
+					case "13":
+					case "14":
+					case "15":
 						KsiCommandHandler(producer, msg);
 						break;
 					case "5":
@@ -135,6 +141,12 @@ namespace Producer
 				"4" => KsiCommand.OpenDoor(1),
 				"8" => KsiCommand.UploadPanel(),
 				"9" => KsiCommand.UploadPanel(KeyBoxUploadControlType.All),
+				"10" => KsiCommand.Panel("get", "panelname"),
+				"11" => KsiCommand.Panel("get", "panelid"),
+				"12" => KsiCommand.Panel("get", "num_keys"),
+				"13" => KsiCommand.Panel("get", "num_doors"),
+				"14" => KsiCommand.Panel("get", "num_users"),
+				"15" => KsiCommand.Panel("get", "box_function"),
 				_ => string.Empty,
 			};
 
