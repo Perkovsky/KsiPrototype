@@ -134,5 +134,45 @@ namespace MG.KSI.DAO.Infrastructure
 		{
 			return $"<panel type={type} name={name}></panel>";
 		}
+
+		/// <summary>
+		/// This command may be sent to retrieve asset status. The keyaudit command behaves somewhat different in the case 
+		/// of assets that have serial numbers i.e. iButton or RFID and are not position dependent (meaning that they can be
+		/// returned to any available position in the Keybox). Rather than in the case of simple presence detection type assets
+		/// which must be returned to a specific position. In the non-position dependent case the keyaudit command requires
+		/// the serial number of the asset to determine presence. While in the position dependent case the position number must
+		/// be passed in the 'keyaudit' command to determine presence.
+		/// </summary>
+		/// <remarks>
+		/// Note: keyaudit all option for position based assets will be supported in later releases.
+		/// Note: the number of entries returned in a keyaudit reply is dependent on the Keybox size. Future design options
+		/// include returning the number of records to be returned in a multipart XML command reply sequence
+		/// </remarks>
+		/// <param name="keyId">Key ID of key to be checked i.e. iButton or RFID serial number</param>
+		/// <param name="type">all</param>
+		/// <param name="pos">Position number of asset</param>
+		/// <param name="poll">0|1 if set to 1 Keybox performs a low level poll of row board hardware</param>
+		/// <returns>KeyBox string command</returns>
+		public static string KeyAudit(string keyId = null, KeyBoxKeyAuditType? type = null, int? pos = null, KeyBoxKeyAuditPoll? poll = null)
+		{
+			var sb = new StringBuilder();
+			sb.Append("<keyaudit");
+
+			if (type.HasValue)
+				sb.Append($" type={type.ToString().ToLower()}");
+
+			if (pos.HasValue)
+				sb.Append($" pos={pos.Value}");
+
+			if (poll.HasValue)
+				sb.Append($" poll={(int)poll.Value}");
+
+			if (!string.IsNullOrWhiteSpace(keyId))
+				sb.Append($">{keyId}</keyaudit>");
+			else
+				sb.Append($"></keyaudit>");
+
+			return sb.ToString();
+		}
 	}
 }
