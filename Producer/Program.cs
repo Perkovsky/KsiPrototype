@@ -75,18 +75,19 @@ namespace Producer
 			
 			Console.Write("Do you want to use fake server (y/n)? ");
 			string answer = Console.ReadLine();
+			KsiSettings ksiSetting = null;
 			if (answer.Equals("y", StringComparison.InvariantCultureIgnoreCase))
-			{
-				_ksiTcpClientId = "xxx";
-				_host = _ksiSettings.Last().Host;
-			}
+				ksiSetting = _ksiSettings.Last();
 			else
-			{
-				_ksiTcpClientId = "0050c23d8000";
-				_host = _ksiSettings.First().Host;
-			}
+				ksiSetting = _ksiSettings.First();
+			
+			_ksiTcpClientId = ksiSetting.DevicetId;
+			_host = ksiSetting.Host;
 
-			Console.WriteLine("Enter KeyBox commands : 1-PanelPing; 2-LightKey; 3-Display; 4-OpenDoor; 8-UploadPanel; 9-UploadPanel (all);");
+			Console.WriteLine("Enter KeyBox commands : 1-PanelPing; 2-LightKey(1); 3-Display; 4-OpenDoor; 8-UploadPanel; 9-UploadPanel (all);");
+			Console.WriteLine("\t10-Panel('get', 'panelname'); 11-Panel('get', 'panelid'); 12-Panel('get', 'num_keys'); 13-Panel('get', 'num_doors');");
+			Console.WriteLine("\t14-Panel('get', 'num_users'); 15-Panel('get', 'box_function'); 16-KeyAudit All; 2-LightKey(2);");
+			Console.WriteLine();
 			Console.WriteLine("Enter service commands: 5-Add; 6-Remove; 7-HeathCheck (Req/Res)");
 			Console.WriteLine("or type 'quit' to exit..." + Environment.NewLine);
 

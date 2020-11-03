@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Consumer.WindowsService", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MG.KSI.Service.Tests", "MG.KSI.Service.Tests\MG.KSI.Service.Tests.csproj", "{22A102DD-224B-4D35-A535-12E94B1522A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MG.KeyBox.Emulator.Service", "MG.KeyBox.Emulator.Service\MG.KeyBox.Emulator.Service.csproj", "{AE56DF5E-BC69-4B3F-BECE-53CCA1D815C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{22A102DD-224B-4D35-A535-12E94B1522A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22A102DD-224B-4D35-A535-12E94B1522A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22A102DD-224B-4D35-A535-12E94B1522A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE56DF5E-BC69-4B3F-BECE-53CCA1D815C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE56DF5E-BC69-4B3F-BECE-53CCA1D815C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE56DF5E-BC69-4B3F-BECE-53CCA1D815C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE56DF5E-BC69-4B3F-BECE-53CCA1D815C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
