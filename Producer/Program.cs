@@ -122,6 +122,11 @@ namespace Producer
 					case "18":
 					case "19":
 					case "20":
+					case "21":
+					case "22":
+					case "23":
+					case "24":
+					case "25":
 						KsiCommandHandler(producer, msg);
 						break;
 					case "5":
@@ -158,6 +163,11 @@ namespace Producer
 				"18" => KsiCommand.LightKey(3),
 				"19" => KsiCommand.LightKey(7),
 				"20" => KsiCommand.LightKey(9),
+				"21" => KsiCommand.KeyAudit(pos: 1),
+				"22" => KsiCommand.KeyAudit(pos: 2),
+				"23" => KsiCommand.KeyAudit(pos: 7),
+				"24" => KsiCommand.KeyAudit(pos: 9),
+				"25" => KsiCommand.KeyAudit(pos: 32),
 				_ => string.Empty,
 			};
 
