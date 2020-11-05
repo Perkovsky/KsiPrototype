@@ -119,9 +119,9 @@ namespace Producer
 					case "15":
 					case "16":
 					case "17":
-					//case "18":
-					//case "19":
-					//case "20":
+					case "18":
+					case "19":
+					case "20":
 						KsiCommandHandler(producer, msg);
 						break;
 					case "5":
@@ -155,6 +155,9 @@ namespace Producer
 				"15" => KsiCommand.Panel("get", "box_function"),
 				"16" => KsiCommand.KeyAudit(type: KeyBoxKeyAuditType.All),
 				"17" => KsiCommand.LightKey(2),
+				"18" => KsiCommand.LightKey(3),
+				"19" => KsiCommand.LightKey(7),
+				"20" => KsiCommand.LightKey(9),
 				_ => string.Empty,
 			};
 
