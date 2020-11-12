@@ -89,6 +89,8 @@ namespace Producer
 			Console.WriteLine("\t14-Panel('get', 'num_users'); 15-Panel('get', 'box_function'); 16-KeyAudit All; 2-LightKey(2);");
 			Console.WriteLine();
 			Console.WriteLine("Enter service commands: 5-Add; 6-Remove; 7-HeathCheck (Req/Res)");
+			Console.WriteLine();
+			Console.WriteLine("Enter FAKE commands: 26-Remove key; 27-Return key");
 			Console.WriteLine("or type 'quit' to exit..." + Environment.NewLine);
 
 			while (true)
@@ -127,6 +129,8 @@ namespace Producer
 					case "23":
 					case "24":
 					case "25":
+					case "26":
+					case "27":
 						KsiCommandHandler(producer, msg);
 						break;
 					case "5":
@@ -168,6 +172,11 @@ namespace Producer
 				"23" => KsiCommand.KeyAudit(pos: 7),
 				"24" => KsiCommand.KeyAudit(pos: 9),
 				"25" => KsiCommand.KeyAudit(pos: 32),
+
+				// FAKE COMMANDS for testing events
+				"26" => "<removekey pos=14></removekey>",
+				"27" => "<returnkey pos=14></returnkey>",
+
 				_ => string.Empty,
 			};
 
