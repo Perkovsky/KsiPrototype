@@ -90,7 +90,7 @@ namespace Producer
 			Console.WriteLine();
 			Console.WriteLine("Enter service commands: 5-Add; 6-Remove; 7-HeathCheck (Req/Res)");
 			Console.WriteLine();
-			Console.WriteLine("Enter FAKE commands: 26-Remove key; 27-Return key");
+			Console.WriteLine("Enter FAKE commands: 26-Remove key 14; 27-Return key 14; 28-Remove key 15; 29-Return key 15");
 			Console.WriteLine("or type 'quit' to exit..." + Environment.NewLine);
 
 			while (true)
@@ -131,6 +131,8 @@ namespace Producer
 					case "25":
 					case "26":
 					case "27":
+					case "28":
+					case "29":
 						KsiCommandHandler(producer, msg);
 						break;
 					case "5":
@@ -176,6 +178,8 @@ namespace Producer
 				// FAKE COMMANDS for testing events
 				"26" => "<removekey pos=14></removekey>",
 				"27" => "<returnkey pos=14></returnkey>",
+				"28" => "<removekey pos=15></removekey>",
+				"29" => "<returnkey pos=15></returnkey>",
 
 				_ => string.Empty,
 			};
