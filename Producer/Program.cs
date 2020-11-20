@@ -86,7 +86,9 @@ namespace Producer
 
 			Console.WriteLine("Enter KeyBox commands : 1-PanelPing; 2-LightKey(1); 3-Display; 4-OpenDoor; 8-UploadPanel; 9-UploadPanel (all);");
 			Console.WriteLine("\t10-Panel('get', 'panelname'); 11-Panel('get', 'panelid'); 12-Panel('get', 'num_keys'); 13-Panel('get', 'num_doors');");
-			Console.WriteLine("\t14-Panel('get', 'num_users'); 15-Panel('get', 'box_function'); 16-KeyAudit All; 2-LightKey(2);");
+			Console.WriteLine("\t14-Panel('get', 'num_users'); 15-Panel('get', 'box_function'); 16-KeyAudit All;");
+			Console.WriteLine("\t17-LightKey(2); 18-LightKey(3); 19-LightKey(7); 20-LightKey(9);");
+			Console.WriteLine("\t21-KeyAudit(1);22-KeyAudit(2);23-KeyAudit(7);24-KeyAudit(9);25-KeyAudit(32);");
 			Console.WriteLine();
 			Console.WriteLine("Enter service commands: 5-Add; 6-Remove; 7-HeathCheck (Req/Res)");
 			Console.WriteLine();
