@@ -130,6 +130,23 @@ namespace MG.KSI.DAO.Infrastructure
 			return $"<upload type={KeyBoxUploadType.Event.ToString().ToLower()} start={start} end={end}></upload>";
 		}
 
+
+		// ------------------------
+		public static string UploadEvent(int start)
+		{
+			if (start < 0)
+				throw new ArgumentException("You must specify the correct start and end.");
+
+			return $"<upload type={KeyBoxUploadType.Event.ToString().ToLower()} start={start}></upload>";
+		}
+		public static string UploadEvent()
+		{
+			return $"<upload type={KeyBoxUploadType.Event.ToString().ToLower()}></upload>";
+		}
+		// ------------------------
+
+
+
 		public static string Panel(string type, string name)
 		{
 			return $"<panel type={type} name={name}></panel>";

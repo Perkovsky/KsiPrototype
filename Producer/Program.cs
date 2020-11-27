@@ -89,6 +89,7 @@ namespace Producer
 			Console.WriteLine("\t14-Panel('get', 'num_users'); 15-Panel('get', 'box_function'); 16-KeyAudit All;");
 			Console.WriteLine("\t17-LightKey(2); 18-LightKey(3); 19-LightKey(7); 20-LightKey(9);");
 			Console.WriteLine("\t21-KeyAudit(1);22-KeyAudit(2);23-KeyAudit(7);24-KeyAudit(9);25-KeyAudit(32);");
+			Console.WriteLine("\t30-UploadEvent();31-UploadEvent(3196);32-UploadEvent(3196, 3198);");
 			Console.WriteLine();
 			Console.WriteLine("Enter service commands: 5-Add; 6-Remove; 7-HeathCheck (Req/Res)");
 			Console.WriteLine();
@@ -135,6 +136,9 @@ namespace Producer
 					case "27":
 					case "28":
 					case "29":
+					case "30":
+					case "31":
+					case "32":
 						KsiCommandHandler(producer, msg);
 						break;
 					case "5":
@@ -176,6 +180,10 @@ namespace Producer
 				"23" => KsiCommand.KeyAudit(pos: 7),
 				"24" => KsiCommand.KeyAudit(pos: 9),
 				"25" => KsiCommand.KeyAudit(pos: 32),
+				
+				"30" => KsiCommand.UploadEvent(),
+				"31" => KsiCommand.UploadEvent(3196),
+				"32" => KsiCommand.UploadEvent(3196, 3198),
 
 				// FAKE COMMANDS for testing events
 				"26" => "<removekey pos=14></removekey>",
