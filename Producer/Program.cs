@@ -90,6 +90,8 @@ namespace Producer
 			Console.WriteLine("\t17-LightKey(2); 18-LightKey(3); 19-LightKey(7); 20-LightKey(9);");
 			Console.WriteLine("\t21-KeyAudit(1);22-KeyAudit(2);23-KeyAudit(7);24-KeyAudit(9);25-KeyAudit(32);");
 			Console.WriteLine("\t30-UploadEvent();31-UploadEvent(3196);32-UploadEvent(3196, 3198);");
+			Console.WriteLine("\t33-Door(timer=60);34-Key(timezone);35-Key(tzlist=override);");
+			Console.WriteLine("\t36-Panel(doto=60);37-Panel(dsto=60);38-Panel(asto=60);");
 			Console.WriteLine();
 			Console.WriteLine("Enter service commands: 5-Add; 6-Remove; 7-HeathCheck (Req/Res)");
 			Console.WriteLine();
@@ -139,6 +141,12 @@ namespace Producer
 					case "30":
 					case "31":
 					case "32":
+					case "33":
+					case "34":
+					case "35":
+					case "36":
+					case "37":
+					case "38":
 						KsiCommandHandler(producer, msg);
 						break;
 					case "5":
@@ -190,6 +198,14 @@ namespace Producer
 				"27" => "<returnkey pos=14></returnkey>",
 				"28" => "<removekey pos=15></removekey>",
 				"29" => "<returnkey pos=15></returnkey>",
+
+				// TESTING
+				"33" => "<door doorlist=1 timer=60></door>",
+				"34" => "<key keylist=1-40 tzlist=s1-00-00-e1-23-59-s2-00-00-e2-23-59-s3-00-00-e3-23-59-s4-00-00-e4-23-59-s5-00-00-e5-23-59-s6-00-00-e6-23-59-s7-00-00-e7-23-59></key>",
+				"35" => "<key keylist=1-40 tzlist=override></key>", //timeout=1440
+				"36" => "<panel type=set name=doto>60</panel>",
+				"37" => "<panel type=set name=dsto>60</panel>",
+				"38" => "<panel type=set name=asto>60</panel>",
 
 				_ => string.Empty,
 			};
