@@ -81,7 +81,7 @@ namespace Producer
 			else
 				ksiSetting = _ksiSettings.First();
 			
-			_ksiTcpClientId = ksiSetting.DevicetId;
+			_ksiTcpClientId = ksiSetting.DeviceId;
 			_host = ksiSetting.Host;
 
 			Console.WriteLine("Enter KeyBox commands : 1-PanelPing; 2-LightKey(1); 3-Display; 4-OpenDoor; 8-UploadPanel; 9-UploadPanel (all);");
@@ -95,7 +95,7 @@ namespace Producer
 			Console.WriteLine();
 			Console.WriteLine("Enter service commands: 5-Add; 6-Remove; 7-HeathCheck (Req/Res)");
 			Console.WriteLine();
-			Console.WriteLine("Enter FAKE commands: 26-Remove key 14; 27-Return key 14; 28-Remove key 15; 29-Return key 15");
+			Console.WriteLine("Enter FAKE commands: 26-Remove key 14; 27-Return key 14; 28-Remove key 15; 29-Return key 15; 39-Register-Return");
 			Console.WriteLine("or type 'quit' to exit..." + Environment.NewLine);
 
 			while (true)
@@ -147,6 +147,7 @@ namespace Producer
 					case "36":
 					case "37":
 					case "38":
+					case "39":
 						KsiCommandHandler(producer, msg);
 						break;
 					case "5":
@@ -198,6 +199,7 @@ namespace Producer
 				"27" => "<returnkey pos=14></returnkey>",
 				"28" => "<removekey pos=15></removekey>",
 				"29" => "<returnkey pos=15></returnkey>",
+				"39" => "<regret pos=9 tagid=7100001cc2a9c401></regret>",
 
 				// TESTING
 				"33" => "<door doorlist=1 timer=60></door>",
